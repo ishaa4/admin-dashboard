@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
 
-const SignupForm = ({isLoginPage, setIsLoginPage}) => {
+const SignupForm = ({isLoginPage, setIsLoginPage, userDatabase, setUserDatabase}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isAdminValue, setIsAdminValue] = useState('');
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault(); 
     console.log('Signing up...', email, password, isAdminValue);
+    const userObj = {
+        email,
+        password,
+        isAdminValue
+    };
+    setUserDatabase([...userDatabase, userObj]);
   };
 
   const formHandler = () => {
