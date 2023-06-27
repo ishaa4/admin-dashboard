@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import LoginPage from './LoginPage';
+import SignupPage from './SignupPage';
+import SignupForm from './SigupForm';
+// const arr = [{
+//   email: 'isha@gmail.com',
+//   password: 'password',
+//   isAdmin: true
+// }
+// ]
+const App = () => {
+  const [userDatabase, setUserDatabase] = useState([]);
+  const [isLoginPage, setIsLoginPage] = useState(true);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    // <Router>
+    //   <div>
+    //     <nav>
+    //       <ul>
+    //         <li>
+    //           <Link to="/login">Login</Link>
+    //         </li>
+    //         <li>
+    //           <Link to="/signup">Signup</Link>
+    //         </li>
+    //       </ul>
+    //     </nav>
+    //     <Route exact path="/login" component={LoginPage} />
+    //     <Route exact path="/signup" component={SignupPage} />
+    //   </div>
+    // </Router>
+
+    <div>
+      <SignupForm isLoginPage={isLoginPage} setIsLoginPage={setIsLoginPage}/>
     </div>
   );
-}
+};
 
 export default App;
