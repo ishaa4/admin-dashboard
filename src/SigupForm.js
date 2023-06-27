@@ -1,20 +1,42 @@
 import React, { useState } from 'react';
+import { loginUser, userDatabase } from './util';
 
-const SignupForm = ({isLoginPage, setIsLoginPage, userDatabase, setUserDatabase}) => {
+const SignupForm = ({isLoginPage, setIsLoginPage, setCurrentUser}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isAdminValue, setIsAdminValue] = useState('');
+  const [error, setError] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault(); 
-    console.log('Signing up...', email, password, isAdminValue);
     const userObj = {
         email,
         password,
         isAdminValue
     };
-    setUserDatabase([...userDatabase, userObj]);
-  };
+  //   if(!isLoginPage){
+  //     userDatabase.push(userObj);
+  //   }
+  //   const currentUser = loginUser(userObj);
+  //   setCurrentUser(currentUser);
+  // };
+
+  if (isLoginPage) {
+    const currentUser = loginUser(userObj);
+    if (currentUser) {
+      setCurrentUser(currentUser);
+      setError('');
+    } else {
+      setError('Invalid email or password');
+      console.log(error);
+    }
+  } else {
+    userDatabase.push(userObj);
+    const currentUser = loginUser(userObj);
+    setCurrentUser(currentUser);
+    setError('');
+  }
+};
 
   const formHandler = () => {
     setIsLoginPage(!isLoginPage)
@@ -40,6 +62,7 @@ const SignupForm = ({isLoginPage, setIsLoginPage, userDatabase, setUserDatabase}
         <input onChange={(e) => setIsAdminValue(e.target.checked)} type="checkbox"/>
       </div>: null}
       <button type="submit">{isLoginPage ? 'Login' : 'Signup'}</button>
+      {error && <p style={{ color: 'red' }}>{error}</p>}  
       <p>{isLoginPage ? 'New here ?' : 'Already a member ?'} <span onClick={formHandler} style={{color: 'orange', cursor: 'pointer'}}>{isLoginPage ? 'Sign Up' : 'Sign In'}</span></p>
     </form>
   );
